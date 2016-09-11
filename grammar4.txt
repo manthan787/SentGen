@@ -1,0 +1,637 @@
+# Comments start at a hash (#) character and go to the end of the line.
+# Ignore lines that only have whitespace.
+
+# All other lines should have a non-negative weight, a left-hand-side
+# nonterminal symbol, and one or more right-hand-side terminals and
+# nonterminals.
+
+# The start symbol is START.
+# These two rules are required; choose their weights carefully!
+# If S1 is chosen, the generator will use your human-written grammar.
+# If S2 is chosen, the generator will use a tag bigram model.
+
+# We start the weight for S2 at 0 so that you can play around with
+# generating sentences from your grammar without being confused by the
+# bigram model.
+
+1	START	S1
+0	START	S2
+
+## Beginning of human-written grammar.
+
+# Edit the rules and weights in this part of the grammar.
+# This is a very, very, very simple grammar to get you started.
+
+# GRAMMAR 4 NEW CONSTRUCTS (Problem 2(b))
+# The following grammar contains the additional constructs other than the ones
+# created in Grammar3
+# All the S1 productions that lead to these newly added constructs in the
+# grammar4 have higher weights than the previous productions of S1 in grammar3
+
+# This grammar generates sentences like
+# "had she been another defeater she would have known Zoot ."
+# and "had one been the servant she could have suggested another fruit ."
+4	S1	Cond .
+1	Cond	Condition Result
+1	Condition	had PPNomSG been NP
+1	Result	PPNom ResultVP NP
+1	ResultVP	ModalPast have PastPart
+
+# This grammar generates sentences like
+# "is he the bloodiest defeater to grow ?" and
+# "is she the hardest master to be ?"
+4	S1	Super ?
+1	Super	IS PPNomSG THE Adjest Noun TO VBASE
+
+# This grammar generates sentences like
+# Zoot 's castle is migrated .
+4	S1	Possesive .
+1	Possesive	PosAgent IS PastPart
+1	PosAgent	Proper APO Noun
+
+# This grammar generates sentences like
+# "they should be wearier than Guinevere ."
+4	S1	Comp .
+1	Comp	PPNom CVP than Proper
+1	CVP	Modal be Adjer
+
+# This grammar generates sentences like
+# "where do snakes be ?"
+# "how do inches carry ?"
+# "when do mountains ride the story ?"
+1	S1	WhQ ?
+# Questions with WH
+1	WhQ	WHAd DoQ
+
+
+# GRAMMAR 3 CONSTRUCTS
+1	S1	NP VP .
+# Construction 1
+# Grammar to generate the construct:
+# "do coconuts speak ?"
+# The grammar is also written to extend this construct to generate sentences like:
+# "do coconuts suggest another defeater ?"
+1	S1	DoQ ?
+# Questions starting with DO/DOES
+4	DoQ	Do PL VPQ
+1	DoQ	Does Noun VPQ
+# Verb phrase for Questions
+1	VPQ	VBASE NP
+4	VPQ	VBASE
+
+# Construction 2
+# Grammar to generate the construct:
+# "who does Arthur suggest she carry ?"
+1	S1	WhPQ ?
+# Questions with Who/What
+1	WhPQ	WHO DoWh
+1	DoWh	Does Proper VBASE PPNomSG VBASE
+
+# Construction 3
+# Grammar to generate the construct:
+# "are they suggesting Arthur ride to Camelot ?"
+1	S1	QPCT ?
+1	QPCT	QSubPL PresPart Proper VBASE TO ProperSG
+1	QPCT	QSubSG PresPart Proper VBASE TO ProperSG
+1	QSubPL	ARE PPNomPL
+1	QSubSG	IS PPNomSG
+
+# Construction 4
+# Grammar to generate the construct:
+# the Holy Grail was covered by a yellow fruit .
+1	S1	Passive .
+# Passive Sentences with an agent (the Holy Grail was covered by a yellow fruit)
+1	Passive	PassiveSG Agent
+1	Passive	PassivePL Agent
+# Passive Sentences without an agent (the Holy Grail was covered)
+1	PassiveSG	PobjSG WAS PastPart
+1	PassivePL	PobjPL WERE PastPart
+
+# Object for passive sentences
+1	PobjSG	Det ProperSG
+1	PobjPL	Det ProperPL
+
+# Adjective Phrase
+1	AdjP	Det Adj Noun
+
+# Agent in a passive voice sentence
+1	Agent	BY AdjP
+
+# Construction 5
+# Grammar to generate the construct:
+# "do not speak !"
+# The grammar is also written to extend this construct to generate sentences like:
+# "do not know that castle !"
+1	S1	EX !
+# Exclamatory sentences
+4	EX	Do Not VBASE
+2	EX	Do Not VBASE NPEX
+# Noun phrase for Exclamatory sentences
+1	NPEX	Det Noun
+
+# Construction 6
+# Grammar to generate the construct:
+# "Arthur will have been riding for eight nights ."
+1	S1	FPCT .
+# Future Perfect Continuous Tense sentences
+1	FPCT	Proper FPVP FPTime
+
+# Future Perfect Continuous Verb Phrase
+1	FPVP	WILL HAVE BEEN PresPart
+
+# Future Perfect Continuous Time phrase
+1	FPTime	FOR SpelledNo TIME
+
+# Construction 7
+# Grammar to generate the construct:
+# Arthur and Guinevere migrate frequently .
+1	S1	CompSub VBASE Adv .
+# Compound Subject
+1	CompSub	Proper And Proper
+
+# Construction 8
+# Grammar to generate the construct:
+# "he knows what they are covering with that story ."
+1	S1	SWH .
+# sentences with wh relative clauses
+1	SWH	SWHSub WHRC
+
+# Subject for SWH
+1	SWHSub	PPNomSG SGV
+1	SWHSub	PPNomPL PLV
+
+# WH Relative clause
+1	WHRC	WH SUB
+
+# Sub sentence in the sentences with WH relative clauses
+# For example "they are covering with that story" in "he knows what they are covering with that story"
+1	SUB	PPNomPL ARE SUBVP
+1	SUB	PPNomSG IS SUBVP
+1	SUBVP	PresPart Prep NP
+
+# Construction 9
+# Grammar to generate the construct:
+# "the king drank to the castle that was his home .""
+1	S1	PAST .
+1	PAST	NPEX VBD PASTObj
+1	PASTObj	TO NPEX THATP
+1	THATP	that WAS PosProSG Noun
+1	THATP	that WAS Proper APO Noun
+
+# Verb Phrase
+1	VP	VerbT NP
+
+20	NP	Det Nbar
+2	NP	Proper
+
+20	Nbar	Noun
+5	Nbar	Nbar PP
+
+1	PP	Prep NP
+
+## End of human-written grammar
+
+## Vocabulary section
+# This is a hand-generated set of preterminal rules.
+# It specifies a simple tag set which will be handled by the S2
+# grammar and which can (though doesn't necessarily need to be)
+# handled by the S1 grammar.
+
+# The weights and left-hand-side tags given here may be changed, but
+# no new vocabulary items are to be added. That keeps you from
+# stumping other parsers simply by adding new words.
+
+# Miscellaneous items that don't fit into any of our simple tags are
+# given to Misc.  You will want to develop your own tags for these!
+
+
+# Singular and mass nouns.  Notice that only the
+# ones that start with consonants get our Noun tag.
+4	Noun	castle
+1	Noun	king
+1	Noun	defeater
+1	Noun	sovereign
+1	Noun	servant
+1	Noun	corner
+1	Noun	land
+1	Noun	quest
+1	Noun	chalice
+2	Noun	master
+1	Noun	horse
+1	Noun	fruit
+1	Noun	swallow
+1	Noun	sun
+1	Noun	winter
+1	Noun	coconut
+1	Noun	pound
+1	Noun	husk
+1	Noun	home
+1	Noun	weight
+4	Noun	story
+
+# Determiners.
+1	Det	a
+1	Det	another
+1	Det	any
+1	Det	each
+1	Det	every
+1	Det	no
+1	Det	that
+4	Det	the
+1	Det	this
+
+1	THE	the
+
+# Prepositions.
+1	Prep	above
+1	Prep	across
+1	Prep	at
+1	Prep	below
+1	Prep	by
+1	Prep	for
+1	Prep	from
+1	Prep	into
+1	Prep	near
+1	Prep	of
+1	Prep	on
+1	Prep	over
+1	Prep	through
+1	Prep	with
+
+1	FOR	for
+
+1	BY	by
+
+# Proper nouns.  Note that our Proper tag is just for people.
+1	Proper	Arthur
+1	Proper	Guinevere
+1	Proper	Sir Lancelot
+1	Proper	Sir Bedevere
+1	Proper	Zoot
+1	Proper	Dingo
+1	Proper	Patsy
+1	Proper	Uther Pendragon
+
+# Verbs (third person singular present).
+# Note that only transitive verbs get our VerbT tag,
+# and some of those could also function as intransitives!
+3	VerbT	has
+1	VerbT	covers
+3	VerbT	is
+1	VerbT	drinks
+1	VerbT	carries
+1	VerbT	rides
+
+3	IS	is
+
+# End-of-sentence.
+1	Misc	!
+1	Misc	.
+1	Misc	?
+
+# Pauses.
+1	Misc	,
+1	Misc	...
+1	Misc	--
+1	Misc	;
+1	Misc	:
+
+# Coordinating conjunctions.
+1	Misc	and
+1	Misc	but
+1	Misc	or
+1	Misc	either
+1	Misc	nor
+1	Misc	neither
+1	Misc	so
+
+1	And	and
+
+
+# Numbers.
+1	Misc	eight
+1	Misc	five
+1	Misc	one
+1	Misc	5.5
+1	Misc	sixty
+1	Misc	5,000
+
+
+1	SpelledNo	eight
+1	SpelledNo	five
+1	SpelledNo	one
+1	SpelledNo	sixty
+
+
+
+# Expletive.
+1	Misc	there
+
+# Subordinating conjunctions.
+1	Misc	that
+1	Misc	so
+1	Misc	while
+1	Misc	because
+1	Misc	if
+
+# Modals.
+1	Modal	can
+1	Modal	could
+1	Modal	may
+1	Modal	might
+1	Modal	must
+1	Modal	ought
+1	Modal	shall
+1	Modal	should
+1	Modal	will
+1	Modal	would
+
+1	ModalPast	could
+1	ModalPast	might
+1	ModalPast	should
+1	ModalPast	would
+
+1	WILL	will
+
+# Adjectives.
+1	Adj	bloody
+1	Adj	weary
+1	Adj	unable
+1	Adj	trusty
+1	Adj	further
+1	Adj	sacred
+1	Adj	tropical
+1	Adj	indigenous
+1	Adj	temperate
+1	Adj	hot
+1	Adj	lucky
+1	Adj	simple
+1	Adj	tiny
+1	Adj	hard
+1	Adj	sensational
+1	Adj	comparable
+1	Adj	angolian
+1	Adj	yellow
+1	Adj	plodding
+
+# Comparative adjectives.
+1	Adjer	bloodier
+1	Adjer	wearier
+1	Adjer	trustier
+1	Adjer	hotter
+1	Adjer	simpler
+1	Adjer	tinier
+1	Adjer	harder
+
+# Superlative adjectives.
+1	Adjest	bloodiest
+1	Adjest	weariest
+1	Adjest	trustiest
+1	Adjest	hottest
+1	Adjest	simplest
+1	Adjest	tiniest
+1	Adjest	hardest
+
+# Plural nouns.
+1	PL	coconuts
+1	PL	halves
+1	PL	snows
+1	PL	mountains
+1	PL	areas
+1	PL	strangers
+1	PL	inches
+1	PL	snakes
+1	PL	ants
+1	PL	nights
+
+1	TIME	nights
+
+# More proper nouns, not people.
+1	ProperSG	Camelot
+1	ProperSG	England
+1	ProperSG	Holy Grail
+1	ProperSG	Round Table
+
+# Plural proper nouns.
+1	ProperPL	Britons
+1	ProperPL	Saxons
+
+# Personal pronouns.
+1	PerP	her
+1	PerP	him
+1	PerP	them
+
+
+1	PPNom	PPNomSG
+1	PPNom	PPNomPL
+# Personal Pronouns Nominative (Singular)
+4	PPNomSG	he
+4	PPNomSG	she
+2	PPNomSG	one
+2	PPNomSG	it
+
+
+# Personal Pronouns Nominative (Plural)
+1	PPNomPL	they
+
+# Possessive personal pronouns
+1	PosProSG	her
+1	PosProSG	his
+1	PosProSG	its
+1	PosProPL	their
+
+# Adverbs.
+1	Adv	again
+1	Adv	already
+1	Adv	currently
+1	Adv	frequently
+1	Adv	precisely
+1	Adv	south
+1	Adv	successfully
+1	Adv	unfortunately
+
+# 'do'/'does'
+1	Do	do
+1	Does	does
+
+# 'to'
+1	TO	to
+
+# 'not'
+1	Not	not
+
+# Verbs (base form).
+1	VBASE	have
+1	VBASE	speak
+1	VBASE	cover
+1	VBASE	be
+1	VBASE	ride
+1	VBASE	drink
+1	VBASE	grow
+1	VBASE	carry
+1	VBASE	suggest
+1	VBASE	migrate
+1	VBASE	know
+
+1	HAVE	have
+
+# Verbs (past tense).
+1	VBD	had
+1	VBD	spoke
+1	VBD	covered
+1	VBD	was
+1	VBD	were
+1	VBD	rode
+1	VBD	drank
+1	VBD	grew
+1	VBD	carried
+1	VBD	suggested
+1	VBD	migrated
+1	VBD	knew
+
+1	WAS	was
+1	WERE	were
+
+# Verbs (present participles).
+1	PresPart	having
+1	PresPart	speaking
+1	PresPart	covering
+1	PresPart	being
+1	PresPart	riding
+1	PresPart	drinking
+1	PresPart	growing
+1	PresPart	carrying
+1	PresPart	suggesting
+1	PresPart	migrating
+1	PresPart	knowing
+
+# Verbs (past participle).
+1	PastPart	had
+1	PastPart	spoken
+1	PastPart	covered
+1	PastPart	been
+1	PastPart	ridden
+1	PastPart	drunk
+1	PastPart	grown
+1	PastPart	carried
+1	PastPart	suggested
+1	PastPart	migrated
+1	PastPart	known
+
+1	BEEN	been
+
+# More third person singular verbs.
+1	SGV	speaks
+1	SGV	grows
+1	SGV	goes
+1	SGV	migrates
+1	SGV	suggests
+1	SGV	knows
+
+# Verbs (present, plural, third person).
+1	Misc	have
+1	Misc	speak
+1	Misc	cover
+1	Misc	are
+1	Misc	ride
+1	Misc	drink
+1	Misc	grow
+1	Misc	carry
+1	Misc	suggest
+1	Misc	migrate
+1	Misc	know
+
+# Plural Verbs
+1	PLV	speak
+1	PLV	cover
+1	PLV	ride
+1	PLV	drink
+1	PLV	grow
+1	PLV	carry
+1	PLV	suggest
+1	PLV	migrate
+1	PLV	know
+
+
+
+1	ARE	are
+
+# Wh-determiners.
+1	Misc	that
+1	Misc	what
+1	Misc	which
+
+# WH for WH relative clauses
+1	WH	WHP
+1	WH	WHAd
+
+# Wh-pronouns.
+1	WHP	what
+1	WHP	who
+1	WHO	who
+# Wh possessive pronoun.
+1	Misc	whose
+
+# Wh-adverbs
+1	WHAd	how
+1	WHAd	when
+1	WHAd	where
+1	WHAd	why
+
+
+# Possessive marker.
+1	APO	's
+
+## S2 tag bigram model
+
+# You may change the weights here or add new rules if you introduce
+# new tags.
+
+1	S2	_Det
+1	S2	_Misc
+1	S2	_Noun
+1	S2	_Prep
+1	S2	_Proper
+1	S2	_VerbT
+1	_Det	Det
+1	_Det	Det _Det
+1	_Det	Det _Misc
+1	_Det	Det _Noun
+1	_Det	Det _Prep
+1	_Det	Det _Proper
+1	_Det	Det _VerbT
+1	_Misc	Misc
+1	_Misc	Misc _Det
+1	_Misc	Misc _Misc
+1	_Misc	Misc _Noun
+1	_Misc	Misc _Prep
+1	_Misc	Misc _Proper
+1	_Misc	Misc _VerbT
+1	_Noun	Noun
+1	_Noun	Noun _Det
+1	_Noun	Noun _Misc
+1	_Noun	Noun _Noun
+1	_Noun	Noun _Prep
+1	_Noun	Noun _Proper
+1	_Noun	Noun _VerbT
+1	_Prep	Prep
+1	_Prep	Prep _Det
+1	_Prep	Prep _Misc
+1	_Prep	Prep _Noun
+1	_Prep	Prep _Prep
+1	_Prep	Prep _Proper
+1	_Prep	Prep _VerbT
+1	_Proper	Proper
+1	_Proper	Proper _Det
+1	_Proper	Proper _Misc
+1	_Proper	Proper _Noun
+1	_Proper	Proper _Prep
+1	_Proper	Proper _Proper
+1	_Proper	Proper _VerbT
+1	_VerbT	VerbT
+1	_VerbT	VerbT _Det
+1	_VerbT	VerbT _Misc
+1	_VerbT	VerbT _Noun
+1	_VerbT	VerbT _Prep
+1	_VerbT	VerbT _Proper
+1	_VerbT	VerbT _VerbT

@@ -1,9 +1,10 @@
-This folder contains all the grammar files that we are asked to create in the problem statement.
+This folder contains all the grammar files that are used to generate sentences with different gramatical constructs.
 
 # EXECUTING "generate":
 The sentence generator has been written in Python.
 The "generate" file can be executed on UNIX Platforms using the command
-specified in the problem set.
+./generate <grammar_file> <no. of sentences>
+
 If you're using any other platform, or there are any problems running the program,
 the original python file "generate.py" is also provided, which can be run
 like so:
